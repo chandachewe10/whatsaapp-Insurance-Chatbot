@@ -8,16 +8,27 @@ use Illuminate\Http\Request;
 use Twilio\Rest\Client;
 class ChatBotController extends Controller
 {
-    //
+       //
     public function listenToReplies(Request $request)
     {
+        
         $from = $request->input('From'); // Client WhatsApp Number
         $body = $request->input('Body'); // Client Message
 
         $client = new \GuzzleHttp\Client();
         try {
+
+                $message = "Welcome to *MyEliana-Insure*.\n";
+                $message .= "Please select an option below\n\n";
+                $message .= "1. Validate Motor Insurance\n";
+                $message .= "2. Get a Quote\n";
+                $message .= "3. View our products\n";
+                $message .= "4.  Report a claim\n";
+                $message .= "5.  Contact Us\n";
+               
+               
            
-                $this->sendWhatsAppMessage("Recieved Here", $from);
+                $this->sendWhatsAppMessage($message, $from);
             } 
             
             catch (RequestException $th) {
