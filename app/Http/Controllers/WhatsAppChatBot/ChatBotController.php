@@ -1,26 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\WhatsAppChatBot;
-
-use App\Http\Controllers\Controller;
 use GuzzleHttp\Exception\RequestException;
+use App\Http\Controllers\Controller;
+use App\Models\conversations;
 use Illuminate\Http\Request;
 use Twilio\Rest\Client;
+
 class ChatBotController extends Controller
 {
-
-// Opening Message
-    public function opening_message () {
-    $message = "Welcome to *MyEliana-Insure*.\n";
-    $message .= "Please select an option below\n\n";
-    $message .= "1. Validate Motor Insurance\n";
-    $message .= "2. Get a Quote\n";
-    $message .= "3. View our products\n";
-    $message .= "4.  Report a claim\n";
-    $message .= "5.  Contact Us\n";
-    return $message;
-
-    }
 
 
        //
@@ -34,17 +22,104 @@ class ChatBotController extends Controller
         try {
 
 
-                
+
+    $last_conversation = conversations::where('client_whatsapp_number', "=", $from)->latest()->first();
+    if(is_null($last_conversation) ||  $body === 'menu' ){
+    $message = "Welcome to *MyEliana-Insure*.\n";
+    $message .= "Please select an option below\n\n";
+    $message .= "1. Validate Motor Insurance\n";
+    $message .= "2. Get a Quote\n";
+    $message .= "3. View our products\n";
+    $message .= "4.  Contact Us\n";
+    //$message .= "5.  Contact Us\n";
+
+    // Opening Message Sent 
+    conversations::create([
+        "client_whatsapp_number" => $from,
+        "last_conversation" => "opening message"
+    ]);
+
+
+    $this->sendWhatsAppMessage($message,$from);
+           }
 
                
-  if($request->input('Body') == 1 ) {
-   $message = "What's your vehicle registration number? e.g. BAE1010"; 
-  }   
-  
+  if($request->input('Body') == 1 && $last_conversation->last_conversation === 'opening message') {
     
+                    
+   $message = "*Motor* Insurance.\n\n";
+   $message = "What's your vehicle registration number? e.g. BAE1010\n";
+   $message = "type *menu* to return to the main menu \n";
+   
+                conversations::create([
+                    "client_whatsapp_number" => $from,
+                    "last_conversation" => "What's your vehicle registration number? e.g. BAE1010"
+                ]);
+
                 $this->sendWhatsAppMessage($message, $from);
-            } 
-            
+     }
+
+
+
+if ($request->input('Body') == 2 && $last_conversation->last_conversation === 'opening message') {
+    
+        $message = "Get a *QUOTE*.\n";
+        $message .= "What are your Full Names?";
+        $message = "type *menu* to return to the main menu \n";
+        conversations::create([
+            "client_whatsapp_number" => $from,
+            "last_conversation" => "What are your Full Names?"
+        ]);
+        $this->sendWhatsAppMessage($message, $from);
+   
+}    
+
+
+
+
+if ($request->input('Body') == 3 && $last_conversation->last_conversation === 'opening message') {
+    
+        $message = "We offer the following products *Insurance*.\n";
+        $message .= "Motor Insurance\n";
+        $message .= "Please find out more on.......\n";
+        $message = "type *menu* to return to the main menu \n";
+        conversations::create([
+            "client_whatsapp_number" => $from,
+            "last_conversation" => "Our Insurance products"
+        ]);
+        $this->sendWhatsAppMessage($message, $from);
+    }    
+
+
+
+
+if ($request->input('Body') == 4 && $last_conversation->last_conversation === 'opening message') {
+    
+        $message = "Please *Contact Us*. on email at: \n";
+        $message .= "support@eliana-insure.com\n";
+        $message .= "or via phone call at: \n";
+        $message .= "0977787578\n";
+        $message = "type *menu* to return to the main menu \n";
+        conversations::create([
+            "client_whatsapp_number" => $from,
+            "last_conversation" => "contact us"
+        ]);
+        $this->sendWhatsAppMessage($message, $from);
+   
+}    
+
+
+
+
+} 
+  
+
+
+
+
+
+    
+             
             catch (RequestException $th) {
             $response = json_decode($th->getResponse()->getBody());
             $this->sendWhatsAppMessage($response->message, $from);
