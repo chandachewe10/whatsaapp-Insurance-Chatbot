@@ -8,6 +8,21 @@ use Illuminate\Http\Request;
 use Twilio\Rest\Client;
 class ChatBotController extends Controller
 {
+
+// Opening Message
+    public function opening_message () {
+    $message = "Welcome to *MyEliana-Insure*.\n";
+    $message .= "Please select an option below\n\n";
+    $message .= "1. Validate Motor Insurance\n";
+    $message .= "2. Get a Quote\n";
+    $message .= "3. View our products\n";
+    $message .= "4.  Report a claim\n";
+    $message .= "5.  Contact Us\n";
+    return $message;
+
+    }
+
+
        //
     public function listenToReplies(Request $request)
     {
@@ -18,16 +33,15 @@ class ChatBotController extends Controller
         $client = new \GuzzleHttp\Client();
         try {
 
-                $message = "Welcome to *MyEliana-Insure*.\n";
-                $message .= "Please select an option below\n\n";
-                $message .= "1. Validate Motor Insurance\n";
-                $message .= "2. Get a Quote\n";
-                $message .= "3. View our products\n";
-                $message .= "4.  Report a claim\n";
-                $message .= "5.  Contact Us\n";
+
+                
+
                
-               
-           
+  if($request->input('Body') == 1 ) {
+   $message = "What's your vehicle registration number? e.g. BAE1010"; 
+  }   
+  
+    
                 $this->sendWhatsAppMessage($message, $from);
             } 
             
