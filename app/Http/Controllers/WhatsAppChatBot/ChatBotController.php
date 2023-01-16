@@ -117,7 +117,7 @@ if ($last_conversation->last_conversation === "What's your vehicle registration 
 // Engine Number
 
 if ($last_conversation->last_conversation === "Year of Manufacture") {
-    $message = "Vehicle Engine Number:\n\n";
+    $message = "Enter Vehicle Engine Number:\n\n";
     $message .= "type *menu* to return to the main menu \n";
     
     conversations::create([
@@ -132,7 +132,7 @@ if ($last_conversation->last_conversation === "Year of Manufacture") {
 // Chassis Number
 
 if ($last_conversation->last_conversation === "Vehicle Engine Number") {
-    $message = "Vehicle Chassis Number:\n\n";
+    $message = "Enter Vehicle Chassis Number:\n\n";
     $message .= "type *menu* to return to the main menu \n";
     
     conversations::create([
@@ -146,7 +146,7 @@ if ($last_conversation->last_conversation === "Vehicle Engine Number") {
 // Vehicle Maker
 
 if ($last_conversation->last_conversation === "Vehicle Chassis Number") {
-    $message = "Vehicle Maker:\n\n";
+    $message = "Enter Vehicle Maker:\n\n";
     $message .= "type *menu* to return to the main menu \n";
     
     conversations::create([
@@ -160,7 +160,7 @@ if ($last_conversation->last_conversation === "Vehicle Chassis Number") {
 // Vehicle Model
 
 if ($last_conversation->last_conversation === "Vehicle Maker") {
-    $message = "Vehicle Model:\n\n";
+    $message = "Enter Vehicle Model:\n\n";
     $message .= "type *menu* to return to the main menu \n";
     
     conversations::create([
@@ -175,7 +175,7 @@ if ($last_conversation->last_conversation === "Vehicle Maker") {
 // Vehicle Color
 
 if ($last_conversation->last_conversation === "Vehicle Model") {
-    $message = "Vehicle Color:\n\n";
+    $message = "Enter Vehicle Color:\n\n";
     $message .= "type *menu* to return to the main menu \n";
     
     conversations::create([
@@ -187,6 +187,67 @@ if ($last_conversation->last_conversation === "Vehicle Model") {
 
 
 
+// Motor  : POLICY DETAILS
+// Insured Name
+if ($last_conversation->last_conversation === "Vehicle Color") {
+    $message = "What is the Vehicle Insured Name?:\n\n";
+    $message .= "type *menu* to return to the main menu \n";
+    
+    conversations::create([
+        "client_whatsapp_number" => $from,
+        "last_conversation" => "Vehicle Insured Name"
+    ]);
+    $this->sendWhatsAppMessage($message, $from);
+}
+
+
+
+// Cover Type
+if ($last_conversation->last_conversation === "Vehicle Insured Name") {
+    $message = "Select Vehicle Cover Type?:\n\n";
+    $message .= "1. Comprehensive \n";
+    $message .= "2. Full Third Party \n\n";
+    $message .= "type *menu* to return to the main menu ";
+    
+    conversations::create([
+        "client_whatsapp_number" => $from,
+        "last_conversation" => "Vehicle Cover Type"
+    ]);
+    $this->sendWhatsAppMessage($message, $from);
+}
+
+
+
+// Vehicle Type
+if ($last_conversation->last_conversation === "Vehicle Cover Type") {
+    $message = "Select the Vehicle  Type:\n\n";
+    $message .= "1. Private \n";
+    $message .= "2. Commercial \n";
+    $message .= "3. Bus/Tax \n\n";
+    $message .= "type *menu* to return to the main menu ";
+    
+    conversations::create([
+        "client_whatsapp_number" => $from,
+        "last_conversation" => "Vehicle Type"
+    ]);
+    $this->sendWhatsAppMessage($message, $from);
+}
+
+
+
+
+// Number of Quarters
+if ($last_conversation->last_conversation === "Vehicle Type") {
+    $message = "Enter Number of Quarters:\n\n";
+    
+    $message .= "type *menu* to return to the main menu ";
+    
+    conversations::create([
+        "client_whatsapp_number" => $from,
+        "last_conversation" => "Number of Quarters"
+    ]);
+    $this->sendWhatsAppMessage($message, $from);
+}
 
 
 
