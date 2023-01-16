@@ -28,6 +28,18 @@ class ChatBotController extends Controller
                 $message .= "4.  Contact Us\n";
                 //$message .= "5.  Contact Us\n";
 
+                    // Start Afresh for this line
+                   
+              $erase = conversations::where('client_whatsapp_number',"=",$from)->get();
+              if($erase){
+                foreach ($erase as $trash_all){
+                    $trash_all->delete();
+                }
+                    
+              }
+
+
+
                 // Opening Message Sent
                 conversations::create([
                     "client_whatsapp_number" => $from,
@@ -102,9 +114,9 @@ class ChatBotController extends Controller
 //Year of Manufacture
 
 
-if ($last_conversation->last_conversation === "What's your vehicle registration number? e.g. BAE1010") {
+if ($last_conversation->last_conversation === "What's your vehicle registration number? e.g. BAE1010" && $body != "menu" ) {
     $message = "Year of Manufacture:\n\n";
-    $message .= "type *menu* to return to the main menu \n";
+    $message .= "Type *menu* to return to the main menu \n";
     
     conversations::create([
         "client_whatsapp_number" => $from,
@@ -116,9 +128,9 @@ if ($last_conversation->last_conversation === "What's your vehicle registration 
 
 // Engine Number
 
-if ($last_conversation->last_conversation === "Year of Manufacture") {
+if ($last_conversation->last_conversation === "Year of Manufacture" && $body != "menu" ) {
     $message = "Enter Vehicle Engine Number:\n\n";
-    $message .= "type *menu* to return to the main menu \n";
+    $message .= "Type *menu* to return to the main menu \n";
     
     conversations::create([
         "client_whatsapp_number" => $from,
@@ -131,9 +143,9 @@ if ($last_conversation->last_conversation === "Year of Manufacture") {
 
 // Chassis Number
 
-if ($last_conversation->last_conversation === "Vehicle Engine Number") {
+if ($last_conversation->last_conversation === "Vehicle Engine Number" && $body != "menu" ) {
     $message = "Enter Vehicle Chassis Number:\n\n";
-    $message .= "type *menu* to return to the main menu \n";
+    $message .= "Type *menu* to return to the main menu \n";
     
     conversations::create([
         "client_whatsapp_number" => $from,
@@ -145,9 +157,9 @@ if ($last_conversation->last_conversation === "Vehicle Engine Number") {
 
 // Vehicle Maker
 
-if ($last_conversation->last_conversation === "Vehicle Chassis Number") {
+if ($last_conversation->last_conversation === "Vehicle Chassis Number" && $body != "menu" ) {
     $message = "Enter Vehicle Maker:\n\n";
-    $message .= "type *menu* to return to the main menu \n";
+    $message .= "Type *menu* to return to the main menu \n";
     
     conversations::create([
         "client_whatsapp_number" => $from,
@@ -159,9 +171,9 @@ if ($last_conversation->last_conversation === "Vehicle Chassis Number") {
 
 // Vehicle Model
 
-if ($last_conversation->last_conversation === "Vehicle Maker") {
+if ($last_conversation->last_conversation === "Vehicle Maker" && $body != "menu" ) {
     $message = "Enter Vehicle Model:\n\n";
-    $message .= "type *menu* to return to the main menu \n";
+    $message .= "Type *menu* to return to the main menu \n";
     
     conversations::create([
         "client_whatsapp_number" => $from,
@@ -174,9 +186,9 @@ if ($last_conversation->last_conversation === "Vehicle Maker") {
 
 // Vehicle Color
 
-if ($last_conversation->last_conversation === "Vehicle Model") {
+if ($last_conversation->last_conversation === "Vehicle Model" && $body != "menu" ) {
     $message = "Enter Vehicle Color:\n\n";
-    $message .= "type *menu* to return to the main menu \n";
+    $message .= "Type *menu* to return to the main menu \n";
     
     conversations::create([
         "client_whatsapp_number" => $from,
@@ -189,9 +201,9 @@ if ($last_conversation->last_conversation === "Vehicle Model") {
 
 // Motor  : POLICY DETAILS
 // Insured Name
-if ($last_conversation->last_conversation === "Vehicle Color") {
+if ($last_conversation->last_conversation === "Vehicle Color" && $body != "menu" ) {
     $message = "What is the Vehicle Insured Name?:\n\n";
-    $message .= "type *menu* to return to the main menu \n";
+    $message .= "Type *menu* to return to the main menu \n";
     
     conversations::create([
         "client_whatsapp_number" => $from,
@@ -203,11 +215,11 @@ if ($last_conversation->last_conversation === "Vehicle Color") {
 
 
 // Cover Type
-if ($last_conversation->last_conversation === "Vehicle Insured Name") {
-    $message = "Select Vehicle Cover Type?:\n\n";
+if ($last_conversation->last_conversation === "Vehicle Insured Name" && $body != "menu" ) {
+    $message = "Select Vehicle Cover Type:\n\n";
     $message .= "1. Comprehensive \n";
     $message .= "2. Full Third Party \n\n";
-    $message .= "type *menu* to return to the main menu ";
+    $message .= "Type *menu* to return to the main menu ";
     
     conversations::create([
         "client_whatsapp_number" => $from,
@@ -219,12 +231,12 @@ if ($last_conversation->last_conversation === "Vehicle Insured Name") {
 
 
 // Vehicle Type
-if ($last_conversation->last_conversation === "Vehicle Cover Type") {
-    $message = "Select the Vehicle  Type:\n\n";
+if ($last_conversation->last_conversation === "Vehicle Cover Type" && $body != "menu" ) {
+    $message = "Select the Vehicle Type:\n\n";
     $message .= "1. Private \n";
     $message .= "2. Commercial \n";
     $message .= "3. Bus/Tax \n\n";
-    $message .= "type *menu* to return to the main menu ";
+    $message .= "Type *menu* to return to the main menu ";
     
     conversations::create([
         "client_whatsapp_number" => $from,
@@ -237,10 +249,10 @@ if ($last_conversation->last_conversation === "Vehicle Cover Type") {
 
 
 // Number of Quarters
-if ($last_conversation->last_conversation === "Vehicle Type") {
+if ($last_conversation->last_conversation === "Vehicle Type" && $body != "menu" ) {
     $message = "Enter Number of Quarters:\n\n";
     
-    $message .= "type *menu* to return to the main menu ";
+    $message .= "Type *menu* to return to the main menu ";
     
     conversations::create([
         "client_whatsapp_number" => $from,
