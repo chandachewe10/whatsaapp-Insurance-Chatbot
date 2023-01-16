@@ -42,13 +42,13 @@ class ChatBotController extends Controller
 
     $this->sendWhatsAppMessage($message,$from);
            }
-
+// Step 1
                
   if($request->input('Body') == 1 && $last_conversation->last_conversation === 'opening message') {
     
                     
    $message = "*Motor* Insurance.\n\n";
-   $message .= "What's your vehicle registration number? e.g. BAE1010\n";
+   $message .= "What's your vehicle registration number? e.g. BAE1010\n\n";
    $message .= "type *menu* to return to the main menu \n";
    
                 conversations::create([
@@ -64,8 +64,8 @@ class ChatBotController extends Controller
 if ($request->input('Body') == 2 && $last_conversation->last_conversation === 'opening message') {
     
         $message = "Get a *QUOTE*.\n";
-        $message .= "What are your Full Names?";
-        $message .= "type *menu* to return to the main menu \n";
+        $message .= "What are your Full Names?\n\n";
+        $message .= "type *menu* to return to the main menu";
         conversations::create([
             "client_whatsapp_number" => $from,
             "last_conversation" => "What are your Full Names?"
@@ -80,9 +80,9 @@ if ($request->input('Body') == 2 && $last_conversation->last_conversation === 'o
 if ($request->input('Body') == 3 && $last_conversation->last_conversation === 'opening message') {
     
         $message = "We offer the following products *Insurance*.\n";
-        $message .= "Motor Insurance\n";
-        $message .= "Please find out more on.......\n";
-        $message .= "type *menu* to return to the main menu \n";
+        $message .= "1. Motor Insurance\n\n";
+        $message .= "Please find out more on https://myeliana.com/eliana_insure.html \n\n\n";
+        $message .= "type *menu* to return to the main menu";
         conversations::create([
             "client_whatsapp_number" => $from,
             "last_conversation" => "Our Insurance products"
@@ -98,8 +98,8 @@ if ($request->input('Body') == 4 && $last_conversation->last_conversation === 'o
         $message = "Please *Contact Us*. on email at: \n";
         $message .= "support@eliana-insure.com\n";
         $message .= "or via phone call at: \n";
-        $message .= "0977787578\n";
-        $message .= "type *menu* to return to the main menu \n";
+        $message .= "0977787578\n\n";
+        $message .= "type *menu* to return to the main menu";
         conversations::create([
             "client_whatsapp_number" => $from,
             "last_conversation" => "contact us"
@@ -109,7 +109,7 @@ if ($request->input('Body') == 4 && $last_conversation->last_conversation === 'o
 }    
 
 
-
+// Step 2
 
 } 
   
