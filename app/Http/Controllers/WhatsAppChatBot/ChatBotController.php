@@ -48,8 +48,8 @@ class ChatBotController extends Controller
     
                     
    $message = "*Motor* Insurance.\n\n";
-   $message = "What's your vehicle registration number? e.g. BAE1010\n";
-   $message = "type *menu* to return to the main menu \n";
+   $message .= "What's your vehicle registration number? e.g. BAE1010\n";
+   $message .= "type *menu* to return to the main menu \n";
    
                 conversations::create([
                     "client_whatsapp_number" => $from,
@@ -65,7 +65,7 @@ if ($request->input('Body') == 2 && $last_conversation->last_conversation === 'o
     
         $message = "Get a *QUOTE*.\n";
         $message .= "What are your Full Names?";
-        $message = "type *menu* to return to the main menu \n";
+        $message .= "type *menu* to return to the main menu \n";
         conversations::create([
             "client_whatsapp_number" => $from,
             "last_conversation" => "What are your Full Names?"
@@ -82,7 +82,7 @@ if ($request->input('Body') == 3 && $last_conversation->last_conversation === 'o
         $message = "We offer the following products *Insurance*.\n";
         $message .= "Motor Insurance\n";
         $message .= "Please find out more on.......\n";
-        $message = "type *menu* to return to the main menu \n";
+        $message .= "type *menu* to return to the main menu \n";
         conversations::create([
             "client_whatsapp_number" => $from,
             "last_conversation" => "Our Insurance products"
@@ -99,7 +99,7 @@ if ($request->input('Body') == 4 && $last_conversation->last_conversation === 'o
         $message .= "support@eliana-insure.com\n";
         $message .= "or via phone call at: \n";
         $message .= "0977787578\n";
-        $message = "type *menu* to return to the main menu \n";
+        $message .= "type *menu* to return to the main menu \n";
         conversations::create([
             "client_whatsapp_number" => $from,
             "last_conversation" => "contact us"
