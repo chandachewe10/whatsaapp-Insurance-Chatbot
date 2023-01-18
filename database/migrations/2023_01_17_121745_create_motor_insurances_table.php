@@ -21,7 +21,13 @@ return new class extends Migration
             $table->string('quarter');
             $table->string('vehicle_model');
             $table->string('vehicle_registration_number');
-
+            $table->string('vehicle_manufacture_year');
+            $table->string('vehicle_engine_number');
+            $table->string('vehicle_chassis_number');
+            $table->string('vehicle_maker');
+            $table->string('vehicle_color');
+            $table->string('vehicle_cover_type');
+            $table->string('vehicle_type');
             $table->string('sum_insured');
             $table->string('insurance_type');
 
