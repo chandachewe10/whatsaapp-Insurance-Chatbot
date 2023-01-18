@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\{conversations, motorInsurance};
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Twilio\Rest\Client;
 
 
@@ -33,7 +34,7 @@ if($last_conversation){
     $diffInMinutes = $diff->i;
 
 
-    if($diffInMinutes >= 2 ){
+    if($diffInMinutes >= 2 && $body !="menu" ){
      // Start Afresh for this whatsapp line
                    
      $erase = conversations::where('client_whatsapp_number',"=",$from)->get();
@@ -598,11 +599,14 @@ if ($last_conversation->last_conversation === "Quatation_Number of Quarters" && 
             'data_submitted' => $data_submitted
         ])
         ->setOptions(['defaultFont' => 'sans-serif','isRemoteEnabled' => true]);
-
-        $message = "Here is your Quatation:\n\n";    
+        $fileName = uniqid().'.pdf';
+        Storage::disk("quotations")->put($fileName, $pdf->output());
+        $message = "Click the link below to view your Quatation:\n\n";
+        $message = "Click the link below to view your Quatation:\n";
+        $message .= "https://51fc-41-216-73-3.in.ngrok.io/Quotations/$fileName \n\n";
         $message .= "Type *menu* to return to the main menu ";
-        $message .= $pdf->output();
-                    $this->sendWhatsAppAttachmentMessage($message, $from);
+        
+        $this->sendWhatsAppMessage($message,$from);
     }
      
 
@@ -690,14 +694,18 @@ if ($last_conversation->last_conversation === "Quatation_Number of Quarters" && 
      * @param string $message MediaUrl of sms
      * @param string $recipient Number of recipient
      */
-    public function sendWhatsAppAttachmentMessage(string $message, string $recipient)
+    public function sendWhatsAppAttachmentMessage(string $message,string $fileName, string $recipient)
     {
         $twilio_whatsapp_number = getenv('TWILIO_WHATSAPP_NUMBER');
         $account_sid = getenv("TWILIO_SID");
         $auth_token = getenv("TWILIO_AUTH_TOKEN");
 
+       
+
+
+
         $client = new Client($account_sid, $auth_token);
-        return $client->messages->create($recipient, array('mediaUrl' => $message,'from' => "whatsapp:$twilio_whatsapp_number"));
+        return $client->messages->create($recipient, array("mediaUrl" => getenv("NGROK_URL/$fileName"),'from' => "whatsapp:$twilio_whatsapp_number"));
     }
 }
 
