@@ -22,6 +22,7 @@ class ChatBotController extends Controller
         $client = new \GuzzleHttp\Client();
         try {
             $last_conversation = conversations::where('client_whatsapp_number', "=", $from)->latest()->first();
+            $last_quatation = motorInsurance::where('client_whatsapp_number', "=", $from)->first();
 
 // Check if the last conversation is there and erase everything if it is more than 5 minutes
 
@@ -63,7 +64,7 @@ if($last_conversation){
                 $message .= "4.  Contact Us\n";
                 //$message .= "5.  Contact Us\n";
 
-                    // Start Afresh for this line
+                    // Start Afresh Conversation for this line
                    
               $erase = conversations::where('client_whatsapp_number',"=",$from)->get();
               if($erase){
@@ -74,6 +75,10 @@ if($last_conversation){
               }
 
 
+              // Start Afresh Quatation for this line
+if($last_quatation){
+    $last_quatation->delete();  
+}
 
                 // Opening Message Sent
                 conversations::create([
@@ -521,7 +526,7 @@ if ($last_conversation->last_conversation === "Quatation_Vehicle Insured Name" &
         'client_whatsapp_number' => $from
     ], [
         'client_whatsapp_number' => $from,
-        'insurance_type' => $body
+        'insurance_type' => $body == 1 ? "Comprehensive" : "Full Third Party"
     ]);
 
 
@@ -583,20 +588,17 @@ if ($last_conversation->last_conversation === "Quatation_Vehicle Type" && $body 
 
 
 // Compose Quotation
-if ($last_conversation->last_conversation === "Quatation_Number of Quarters" && $body != "menu" && $diffInMinutes <= 2) {
-
-
-    
+if ($last_conversation->last_conversation === "Quatation_Number of Quarters" && $body != "menu" && $diffInMinutes <= 2) {    
     
     
 
     $data_submitted = motorInsurance::where('client_whatsapp_number',"=",$from)->first();
-    if($data_submitted){
+    if($data_submitted){ 
         $pdf = PDF::loadView("Quatation.Quatation", [
             'data_submitted' => $data_submitted
         ])
         ->setOptions(['defaultFont' => 'sans-serif','isRemoteEnabled' => true]);
-        
+
         $message = "Here is your Quatation:\n\n";    
         $message .= "Type *menu* to return to the main menu ";
         $message .= $pdf->output();
