@@ -340,7 +340,7 @@ if ($last_conversation->last_conversation === "What are your Full Names?" && $bo
         'client_whatsapp_number' => $from
     ], [
         'client_whatsapp_number' => $from,
-        'vehicle_registration_number' => $body
+        'client_name' => $body
     ]);
 
 
@@ -364,7 +364,7 @@ if ($last_conversation->last_conversation === "Quatation_What's your vehicle reg
         'client_whatsapp_number' => $from
     ], [
         'client_whatsapp_number' => $from,
-        'vehicle_manufacture_year' => $body
+        'vehicle_registration_number' => $body
     ]);
 
     $this->sendWhatsAppMessage($message, $from);
@@ -386,7 +386,7 @@ if ($last_conversation->last_conversation === "Quatation_Year of Manufacture" &&
         'client_whatsapp_number' => $from
     ], [
         'client_whatsapp_number' => $from,
-        'vehicle_engine_number' => $body
+        'vehicle_manufacure_year' => $body
     ]);
 
     $this->sendWhatsAppMessage($message, $from);
@@ -409,7 +409,7 @@ if ($last_conversation->last_conversation === "Quatation_Vehicle Engine Number" 
         'client_whatsapp_number' => $from
     ], [
         'client_whatsapp_number' => $from,
-        'vehicle_chassis_number' => $body
+        'vehicle_engine_number' => $body
     ]);
 
 
@@ -432,7 +432,7 @@ if ($last_conversation->last_conversation === "Quatation_Vehicle Chassis Number"
         'client_whatsapp_number' => $from
     ], [
         'client_whatsapp_number' => $from,
-        'vehicle_maker' => $body
+        'vehicle_chassis_number' => $body
     ]);
 
     $this->sendWhatsAppMessage($message, $from);
@@ -454,7 +454,7 @@ if ($last_conversation->last_conversation === "Quatation_Vehicle Maker" && $body
         'client_whatsapp_number' => $from
     ], [
         'client_whatsapp_number' => $from,
-        'vehicle_model' => $body
+        'vehicle_maker' => $body
     ]);
 
 
@@ -478,7 +478,7 @@ if ($last_conversation->last_conversation === "Quatation_Vehicle Model" && $body
         'client_whatsapp_number' => $from
     ], [
         'client_whatsapp_number' => $from,
-        'vehicle_color' => $body
+        'vehicle_model' => $body
     ]);
 
 
@@ -502,7 +502,7 @@ if ($last_conversation->last_conversation === "Quatation_Vehicle Color" && $body
         'client_whatsapp_number' => $from
     ], [
         'client_whatsapp_number' => $from,
-        'vehicle_insured_name' => $body
+        'vehicle_color' => $body
     ]);
 
 
@@ -527,7 +527,7 @@ if ($last_conversation->last_conversation === "Quatation_Vehicle Insured Name" &
         'client_whatsapp_number' => $from
     ], [
         'client_whatsapp_number' => $from,
-        'insurance_type' => $body == 1 ? "Comprehensive" : "Full Third Party"
+        'vehicle_insured_name' => $body
     ]);
 
 
@@ -553,7 +553,7 @@ if ($last_conversation->last_conversation === "Quatation_Vehicle Cover Type" && 
         'client_whatsapp_number' => $from
     ], [
         'client_whatsapp_number' => $from,
-        'vehicle_type' => $body
+        'insurance_type' => $body
     ]);
 
 
@@ -578,7 +578,7 @@ if ($last_conversation->last_conversation === "Quatation_Vehicle Type" && $body 
         'client_whatsapp_number' => $from
     ], [
         'client_whatsapp_number' => $from,
-        'quarter' => $body
+        'vehicle_type' => $body
     ]);
 
 
@@ -590,7 +590,12 @@ if ($last_conversation->last_conversation === "Quatation_Vehicle Type" && $body 
 
 // Compose Quotation
 if ($last_conversation->last_conversation === "Quatation_Number of Quarters" && $body != "menu" && $diffInMinutes <= 2) {    
-    
+    motorInsurance::updateOrCreate([
+        'client_whatsapp_number' => $from
+    ], [
+        'client_whatsapp_number' => $from,
+        'quarter' => $body
+    ]);
     
 
     $data_submitted = motorInsurance::where('client_whatsapp_number',"=",$from)->first();
