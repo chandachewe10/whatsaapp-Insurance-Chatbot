@@ -386,7 +386,7 @@ if ($last_conversation->last_conversation === "Quatation_Year of Manufacture" &&
         'client_whatsapp_number' => $from
     ], [
         'client_whatsapp_number' => $from,
-        'vehicle_manufacure_year' => $body
+        'vehicle_manufacture_year' => $body
     ]);
 
     $this->sendWhatsAppMessage($message, $from);
@@ -608,7 +608,7 @@ if ($last_conversation->last_conversation === "Quatation_Number of Quarters" && 
         Storage::disk("quotations")->put($fileName, $pdf->output());
         $message = "Click the link below to view your Quatation:\n\n";
         $message = "Click the link below to view your Quatation:\n";
-        $message .= "https://51fc-41-216-73-3.in.ngrok.io/Quotations/$fileName \n\n";
+        $message .= "https://e5f1-41-216-82-5.in.ngrok.io/Quotations/$fileName \n\n";
         $message .= "Type *menu* to return to the main menu ";
         
         $this->sendWhatsAppMessage($message,$from);
