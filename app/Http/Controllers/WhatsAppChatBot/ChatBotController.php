@@ -316,6 +316,22 @@ if ($last_conversation->last_conversation === "Vehicle Type" && $body != "menu" 
 
 
 
+// Make Payments
+if ($last_conversation->last_conversation === "Number of Quarters" && $body != "menu" && $diffInMinutes <= 2) {
+    $message = "Please accept the payment prompt which has appeared on your phone by entering your pin:\n\n";
+    $message .= "Waiting for payments approval...\n\n";
+    $message .= "Type *menu* to return to the main menu ";
+    
+    conversations::create([
+        "client_whatsapp_number" => $from,
+        "last_conversation" => "payments"
+    ]);
+    $this->sendWhatsAppMessage($message, $from);
+}
+
+
+
+
 
 
 
@@ -604,6 +620,7 @@ if ($last_conversation->last_conversation === "Quatation_Number of Quarters" && 
             'data_submitted' => $data_submitted
         ])
         ->setOptions(['defaultFont' => 'sans-serif','isRemoteEnabled' => true]);
+        
         $fileName = uniqid().'.pdf';
         Storage::disk("quotations")->put($fileName, $pdf->output());
         $message = "Click the link below to view your Quatation:\n\n";
