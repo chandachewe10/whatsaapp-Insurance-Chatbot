@@ -34,7 +34,7 @@ if($last_conversation){
     $diffInMinutes = $diff->i;
 
 
-    if($diffInMinutes >= 2 && $body !="menu" ){
+    if($diffInMinutes >= 2 && $body !="menu" && $body === 'Menu' && $body === 'Hello' ){
      // Start Afresh for this whatsapp line
                    
      $erase = conversations::where('client_whatsapp_number',"=",$from)->get();
@@ -56,15 +56,22 @@ if($last_conversation){
 
 
 
-            if (is_null($last_conversation) ||  $body === 'menu') {
-                $message = "Welcome to *MyEliana-Insure*.\n";
-                $message .= "Please select an option below\n\n";
+            if (is_null($last_conversation) ||  $body === 'menu' ||  $body === 'Menu' || $body === 'Hello' || $body === 'Hi') {
+                $message = "Welcome to *MyEliana-Insurance Agency* in partnership with *Proffesional Insurance*\n\n";
+               
+                $message .= "Please select one of the options below:\n\n";
+                $message .= "1. Individual\n";
+                $message .= "2. Corporate\n";
+               
+
+/*
+                $message .= "Please select one of the options below:\n\n";
                 $message .= "1. Buy Motor Insurance\n";
                 $message .= "2. Get a Quote\n";
                 $message .= "3. View our products\n";
-                $message .= "4.  Contact Us\n";
+                $message .= "4.  Contact Us \n";
                 //$message .= "5.  Contact Us\n";
-
+*/
                     // Start Afresh Conversation for this line
                    
               $erase = conversations::where('client_whatsapp_number',"=",$from)->get();
@@ -90,9 +97,63 @@ if($last_quatation){
 
                 $this->sendWhatsAppMessage($message, $from);
             }
+
+
+
+
+
+            // Get Started Now
+            if ($request->input('Body') == 1 && $last_conversation->last_conversation === 'opening message' && $diffInMinutes <= 2) {
+                $message = "Please select one of the options below:\n\n";
+                $message .= "1. Buy Motor Insurance\n";
+                $message .= "2. Get a Quote\n";
+                $message .= "3. View our products\n";
+                $message .= "4.  Contact Us \n\n";
+                $message .= "Type *menu* to return to the main menu";
+                //$message .= "5.  Contact Us\n";
+                conversations::create([
+                    "client_whatsapp_number" => $from,
+                    "last_conversation" => "individual Insurance"
+                ]);
+
+                $this->sendWhatsAppMessage($message, $from);
+            }
+
+
+
+            if ($request->input('Body') == 2 && $last_conversation->last_conversation === 'opening message' && $diffInMinutes <= 2) {
+                $message = "Please *Contact Us*. on email at: \n";
+                $message .= "support@eliana-insure.com\n";
+                $message .= "or via phone call at: \n";
+                $message .= "0977787178\n\n";
+                $message .= "Type *menu* to return to the main menu";
+                
+                conversations::create([
+                    "client_whatsapp_number" => $from,
+                    "last_conversation" => "corporate Insurance"
+                ]);
+
+                $this->sendWhatsAppMessage($message, $from);
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             // Step 1
 
-            if ($request->input('Body') == 1 && $last_conversation->last_conversation === 'opening message' && $diffInMinutes <= 2) {
+            if ($request->input('Body') == 1 && $last_conversation->last_conversation === 'individual Insurance' && $diffInMinutes <= 2) {
                 $message = "*Motor* Insurance.\n\n";
                 $message .= "What's your vehicle registration number? e.g. BAE1010\n\n";
                 $message .= "type *menu* to return to the main menu \n";
@@ -107,7 +168,7 @@ if($last_quatation){
 
 
 
-            if ($request->input('Body') == 2 && $last_conversation->last_conversation === 'opening message' && $diffInMinutes <= 2) {
+            if ($request->input('Body') == 2 && $last_conversation->last_conversation === 'individual Insurance' && $diffInMinutes <= 2) {
                 $message = "Get a *QUOTE*.\n";
                 $message .= "What are your Full Names?\n\n";
                 $message .= "type *menu* to return to the main menu";
@@ -132,7 +193,7 @@ if($last_quatation){
 
 
 
-            if ($request->input('Body') == 3 && $last_conversation->last_conversation === 'opening message' && $diffInMinutes <= 2) {
+            if ($request->input('Body') == 3 && $last_conversation->last_conversation === 'individual Insurance' && $diffInMinutes <= 2) {
                 $message = "We offer the following products *Insurance*.\n\n";
                 $message .= "1. Motor Insurance\n\n";
                 $message .= "Please find out more on https://myeliana.com/eliana_insure.html \n\n\n";
@@ -147,7 +208,7 @@ if($last_quatation){
 
 
 
-            if ($request->input('Body') == 4 && $last_conversation->last_conversation === 'opening message' && $diffInMinutes <= 2) {
+            if ($request->input('Body') == 4 && $last_conversation->last_conversation === 'individual Insurance' && $diffInMinutes <= 2) {
                 $message = "Please *Contact Us*. on email at: \n";
                 $message .= "support@eliana-insure.com\n";
                 $message .= "or via phone call at: \n";
@@ -625,7 +686,7 @@ if ($last_conversation->last_conversation === "Quatation_Number of Quarters" && 
         Storage::disk("quotations")->put($fileName, $pdf->output());
         $message = "Click the link below to view your Quatation:\n\n";
         $message = "Click the link below to view your Quatation:\n";
-        $message .= "https://e5f1-41-216-82-5.in.ngrok.io/Quotations/$fileName \n\n";
+        $message .= "https://28bf-41-216-87-3.in.ngrok.io/Quotations/$fileName \n\n";
         $message .= "Type *menu* to return to the main menu ";
         
         $this->sendWhatsAppMessage($message,$from);
